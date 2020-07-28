@@ -1,0 +1,193 @@
+﻿@model BookWatcher.Models.ProfileViewModel
+
+
+    <div class="container">
+
+        <div class="section">
+            <h2 class="subtitle">SELECT STORE</h2>
+            <h1 class="title is-2">Where do you buy your books?</h1>
+            <div class="columns">
+                <div class="column is-8">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
+                                            <label class="label">🏬 Select store</label>
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <div class="select is-rounded">
+                                                        <select disabled>
+                                                            <option>Amazon.co.uk</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
+                                            <label class="label">📔 Select format</label>
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <div class="select is-rounded">
+                                                        <select disabled>
+                                                            <option>Ebook (kindle)</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field is-horizontal">
+                                        <div class="field-label is-normal">
+                                            <label class="label">📟 Alert Trigger</label>
+                                        </div>
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <div class="control" disabled>
+                                                    <div class="select is-rounded">
+                                                        <select disabled>
+                                                            <option>5%</option>
+                                                            <option>10%</option>
+                                                            <option selected="selected">20%</option>
+                                                            <option>30%</option>
+                                                            <option>40%</option>
+                                                            <option>50%</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+            <h2 class="subtitle">CONNECT</h2>
+            <h1 class="title is-1">Track your reading!</h1>
+
+            <div class="columns">
+
+                @if (!Model.GoodreadsConnected)
+                {
+                    <div class="column is-4">
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-left">
+                                    <figure class="image is-64x64">
+                                        <img src="https://www.allymachate.com/blog/wp-content/uploads/2013/09/goodreads-logo-square.jpg" alt="Image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>Goodreads</strong>
+                                            <br>
+                                            Sync your bookshelf
+                                        </p>
+                                    </div>
+                                    <nav class="level is-mobile">
+                                        <div class="level-left">
+                                            <button class="button is-primary is-light">Connect Goodreads</button>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                }
+
+                <div class="column is-4">
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong>📊 Statistics</strong>
+                                        <br>
+                                        @Model.BookCount Book(s)
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="section">
+            <h2 class="subtitle">PERSONALIZE YOUR EXPERIENCE</h2>
+            <h1 class="title is-1">Who inspires you?</h1>
+
+            <div class="columns">
+                <div class="column is-1">
+                    <figure class="image is-128x128">
+                        <img class="is-rounded" src="https://pbs.twimg.com/profile_images/825622525342199809/_iAaSUQf_400x400.jpg">
+                    </figure>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="section">
+            <h2 class="subtitle">SAVE MONEY</h2>
+            <h1 class="title is-1">See what you're tracking!</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><abbr title="Position">Pos</abbr></th>
+                        <th>Title</th>
+                        <th><abbr title="Played">Author(s)</abbr></th>
+                        <th><abbr title="Won">List Price</abbr></th>
+                        <th><abbr title="Drawn">Current Price</abbr></th>
+                        <th><abbr title="Lost">Discount</abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <td>
+                            <a href="">The Rise and Fall of American Growth: The U.S. Standard of Living since the Civil War</a>
+                        </td>
+                        <td>Robert J. Gordon</td>
+                        <td>$24.95</td>
+                        <td>$17.24</td>
+                        <td style="color:green"><b>31%</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+@*<script>
+        let dropdown = document.querySelector('.dropdown');
+    dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdown.classList.toggle('is-active');
+    });
+
+    </script>*@
