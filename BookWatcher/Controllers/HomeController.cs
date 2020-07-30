@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookWatcher.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace BookWatcher.Controllers
 {
@@ -19,7 +21,17 @@ namespace BookWatcher.Controllers
 
         public IActionResult SignUp(string email)
         {
-            return RedirectToAction("Index","Profile");
+            var context = new BookWatcherContext();
+            var userId = Guid.NewGuid();
+
+            context.User.Add(new User
+            {
+                Email = email,
+                UserId = userId
+            });
+            context.SaveChanges();
+
+            return RedirectToAction("Index","Profile", new { id = userId });
 
         }
 
