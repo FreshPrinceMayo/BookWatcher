@@ -5,11 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace BookWatcher.Controllers
 {
     public class GoodreadsController : Controller
     {
+        public object Link { get; private set; }
+        public object Description { get; private set; }
+
         public GoodreadsController()
         {
 
@@ -72,6 +78,7 @@ namespace BookWatcher.Controllers
                 var client = GoodreadsClient.Create(Storage.ApiKey, Storage.ApiSecret);
                 var accessToken = client.GetAccessToken(new Storage().GetToken(id), new Storage().GetSecret(id)).Result;
                 var authClient = GoodreadsClient.CreateAuth(Storage.ApiKey, Storage.ApiSecret, accessToken.Token, accessToken.Secret);
+
                 var currentUserId = authClient.Users.GetAuthenticatedUserId().Result;
 
                 if(currentUserId != null)
@@ -97,31 +104,30 @@ namespace BookWatcher.Controllers
 
         }
 
+        public IActionResult BookList()
+        {
+            var url = "https://www.goodreads.com/review/list/80465761.xml?key=CTtKHTFV48DDQWzqU1FtQ&v=2&shelf=read&per_page=200&page=1";
 
-        //public JsonResult Sync(Guid id)
-        //{
+            XDocument document = XDocument.Load(url);
 
-        //    var client = GoodreadsClient.Create(Storage.ApiKey, Storage.ApiSecret);
+            var reviews = document.Root.Elements("reviews").Elements("review").Select(x => new Review
+            {
+               Id = x?.Element("id")?.Value,
+               Title = x?.Element("book")?.Element("title")?.Value,
+               TitleWithoutSeries = x?.Element("book")?.Element("title")?.Value,
+               ISBN = x?.Element("book")?.Element("isbn")?.Value,
+               ISBN13 = x?.Element("book")?.Element("isbn13")?.Value,
+               RatingsCount = x?.Element("book")?.Element("ratings_count")?.Value,
+               AverageRating = x?.Element("book")?.Element("average_rating")?.Value,
+               Link = x?.Element("book")?.Element("link")?.Value,
+               PageCount = x?.Element("book")?.Element("num_pages")?.Value,
+               Description =  x?.Element("book")?.Element("description")?.Value,
+               Authors = x?.Element("book")?.Elements("authors")?.Select(y => y?.Element("author").Element("name")?.Value)
+            }).ToList();
+            
 
-        //    // Get a user's OAuth access token and secret after they have granted access.
-        //    var accessToken = client.GetAccessToken(new Storage().GetToken(id), new Storage().GetSecret(id)).Result;
-
-        //    // Create an authorized Goodreads client.
-        //    var authClient = GoodreadsClient.CreateAuth(Storage.ApiKey, Storage.ApiSecret, accessToken.Token, accessToken.Secret);
-
-        //    // Get information for the current user.
-        //    var currentUserId =  authClient.Users.GetAuthenticatedUserId().Result;
-
-           
-             
-        //    var user = authClient.Users.GetByUserId(currentUserId).Result;
-        //    user.b
-
-        //    var bookCount = user.Shelves.FirstOrDefault().BookCount;
-        //    var favouriteBooks = user.FavoriteBooks;
-
-        //    return new JsonResult($"Book Count {bookCount}");
-        //}
+            return null;
+        }
 
     }
 }
