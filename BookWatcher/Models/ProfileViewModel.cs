@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookWatcher.Model;
+using System;
+using System.Collections.Generic;
 
 namespace BookWatcher.Models
 {
@@ -11,5 +13,6 @@ namespace BookWatcher.Models
         public bool GoodreadsConnected { get; set; }
         public int BookCount => 100;
         public string AuthenticationUrl { get; set; }
+        public ICollection<Book> Books { get; internal set; }
     }
 }

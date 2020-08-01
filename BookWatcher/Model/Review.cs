@@ -20,5 +20,6 @@ namespace BookWatcher.Model
         public string RatingsCount { get; internal set; }
         public IEnumerable<string> Authors { get; internal set; }
         public string PageCount { get; internal set; }
+        public string Shelf { get; internal set; }
     }
 }

@@ -16,6 +16,7 @@ namespace BookWatcher.Model
         }
 
         public virtual DbSet<AccessToken> AccessToken { get; set; }
+        public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -44,6 +45,20 @@ namespace BookWatcher.Model
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AccessToken_User");
+            });
+
+            modelBuilder.Entity<Book>(entity =>
+            {
+                entity.Property(e => e.Asin).HasColumnName("ASIN");
+
+                entity.Property(e => e.Isbn).HasColumnName("ISBN");
+
+                entity.Property(e => e.Isbn13).HasColumnName("ISBN13");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Book)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Book_Book");
             });
 
             modelBuilder.Entity<User>(entity =>

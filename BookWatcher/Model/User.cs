@@ -8,6 +8,7 @@ namespace BookWatcher.Model
         public User()
         {
             AccessToken = new HashSet<AccessToken>();
+            Book = new HashSet<Book>();
         }
 
         public Guid UserId { get; set; }
@@ -16,5 +17,6 @@ namespace BookWatcher.Model
         public long? GoodreadsUserId { get; set; }
 
         public virtual ICollection<AccessToken> AccessToken { get; set; }
+        public virtual ICollection<Book> Book { get; set; }
     }
 }

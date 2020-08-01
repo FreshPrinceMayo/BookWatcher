@@ -123,7 +123,7 @@
 
                                         <a href="/Goodreads/Sync?Id=@Model.Id" class="button is-primary is-light">Sync Goodreads</a>
                                         <a href="/Goodreads/SaveGoodReadsUserId?Id=@Model.Id" class="button is-primary is-light">Save GoodReadsUserId</a>
-                                        <a href="/Goodreads/BookList" class="button is-primary is-light">BookList</a>
+                                        <a href="/Goodreads/BookList?Id=@Model.Id" class="button is-primary is-light">BookList</a>
                                     </p>
                                 </div>
                             </div>
@@ -160,25 +160,30 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><abbr title="Position">Pos</abbr></th>
                         <th>Title</th>
                         <th><abbr title="Played">Author(s)</abbr></th>
                         <th><abbr title="Won">List Price</abbr></th>
                         <th><abbr title="Drawn">Current Price</abbr></th>
                         <th><abbr title="Lost">Discount</abbr></th>
+                        <th><abbr title="Lost">Rating</abbr></th>
                     </tr>
                 </thead>
                 <tbody>
+
+                    @foreach(var book in Model.Books)
+                    {
                     <tr>
-                        <th>1</th>
                         <td>
-                            <a href="">The Rise and Fall of American Growth: The U.S. Standard of Living since the Civil War</a>
+                            <a href="">@book.Title</a>
                         </td>
-                        <td>Robert J. Gordon</td>
-                        <td>$24.95</td>
-                        <td>$17.24</td>
-                        <td style="color:green"><b>31%</b></td>
+                        <td>@book.Authors</td>
+                        <td>@book.ListPrice</td>
+                        <td>@book.CurrentPrice</td>
+                        <td style="color:green"><b>@book.CurrentPrice%</b></td>
+                        <td>@book.AverageRating ⭐</td>
                     </tr>
+                    }
+                    
                 </tbody>
             </table>
         </div>

@@ -3,6 +3,7 @@ using BookWatcher.Models;
 using Goodreads;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -104,9 +105,11 @@ namespace BookWatcher.Controllers
 
         }
 
-        public IActionResult BookList()
+        public IActionResult BookList(Guid id)
         {
-            var url = "https://www.goodreads.com/review/list/80465761.xml?key=CTtKHTFV48DDQWzqU1FtQ&v=2&shelf=read&per_page=200&page=1";
+            var shelf = "read";
+            var url = $"https://www.goodreads.com/review/list/80465761.xml?key=CTtKHTFV48DDQWzqU1FtQ&v=2&{shelf}=read&per_page=200&page=1";
+            var books = new List<Book>();
 
             XDocument document = XDocument.Load(url);
 
@@ -122,9 +125,35 @@ namespace BookWatcher.Controllers
                Link = x?.Element("book")?.Element("link")?.Value,
                PageCount = x?.Element("book")?.Element("num_pages")?.Value,
                Description =  x?.Element("book")?.Element("description")?.Value,
-               Authors = x?.Element("book")?.Elements("authors")?.Select(y => y?.Element("author").Element("name")?.Value)
+               Authors = x?.Element("book")?.Elements("authors")?.Select(y => y?.Element("author").Element("name")?.Value),
+               Shelf = shelf
             }).ToList();
-            
+
+
+            foreach (var review in reviews)
+            {
+                books.Add(new Book
+                {
+                    UserId = id,
+                    Shelf = review.Shelf,
+                    GoodreadsId = review.Id,
+                    Title = review.Title,
+                    TitleWithoutSeries = review.TitleWithoutSeries,
+                    Isbn = review.ISBN,
+                    Isbn13 = review.ISBN13,
+                    RatingsCount = review.RatingsCount,
+                    AverageRating = review.AverageRating,
+                    Link = review.Link,
+                    PageCount = review.PageCount,
+                    Description = review.Description,
+                    Authors = review.Authors.Any() ?  string.Join(",", review.Authors): null
+                });
+            }
+
+            var context = new BookWatcherContext();
+
+            context.Book.AddRange(books);
+            context.SaveChanges();
 
             return null;
         }
